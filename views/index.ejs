@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include ./partials/head %>
+
+<body ng-app="miapp">
+  <div ng-controller="ctrlHome">
+
+    <div class="row justify-content-md-center col-12 ">
+      <div class="col-md-8">
+        <div class="jumbotron">
+          <h1 class="display-4">Bienvenido Usuario {{nombre}}</h1>
+          <div class="col-4">
+            <p>Ver todod los usuarios </p>
+            <a class=" btn btn-warning" href="/Usuarios">Ver api de Usuarios</a>
+
+          </div>
+          <hr class="my-4">
+          <p>agregar nuevos Usuarios </p>
+          <a class="btn btn-danger" href="/Usuarios_add">add users </a>
+          <a class="btn btn-dark" href="/charts">Graficos </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

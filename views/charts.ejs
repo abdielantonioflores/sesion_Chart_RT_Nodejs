@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
+  <script src="./angular/app.js"></script>
+  <script src="./angular/controller/controller-Home.js"></script>
+  <script src="./angular/service/data-service.js"></script>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
+  <link type="text/css" </head> <body ng-app="miapp">
+  <div ng-controller="ctrlHome">
+    <h1>{{nombre}}</h1>
+    <!-- primer div  -->
+    <div class="container-fluit  ">
+      <div class="row p-1 ">
+        <div class="col-6" ng-repeat="Chart in chartList ">
+
+          <div class="row ">
+            <div class="col-3">
+              <select class="btn btn-dark btn-sm btn-block" name={{Chart.name}} ng-change=clickaction(this,this.name)
+                id={{Chart.name+"_op"}} ng-model="Chart.type">
+                <option ng-repeat="Ctype in listData" value={{::Ctype}}>{{::Ctype}}</option>
+              </select>
+            </div>
+            <div class="col-3">
+              <select class="btn btn-primary btn-sm btn-block" name={{Chart.name}} ng-change=clickaction(this,this.name)
+                ng-model="Chart.data" id={{Chart.name+"_name"}}>
+                <option ng-repeat="Cdata in NameData" value={{::Cdata}} >{{::Cdata}}</option>
+              </select>
+            </div>
+            
+           
+            <div class="col-3">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button name={{Chart.name}} type="button" class="btn btn-secondary btn-sm  " ng-click=Save(this.Chart.name)>Save</button>
+                    <button name={{Chart.name}} type="button" class="btn btn-danger btn-sm  " ng-click=Delete(this.Chart.name)>Delete</button>
+                  </div>      
+            </div>
+            <div class="col-3   text-center ">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <button class=" btn  btn-success" id="inputGroup-sizing-sm" ng-click="modal(Chart.name )"><i class="fas fa-pencil-alt"></i></button>
+                </div>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"
+                  value={{Chart.name}} disabled>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <canvas id={{Chart.name}}></canvas>
+            </div>
+          </div>
+          <!-- Modal -->
+          <div class="modal fade" id="Update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Change Name of the chart </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <input type="text" class="form-control" name="name" id="name">
+                    <input class="btn btn-danger mt-3 btn-block " type="submit" value="Change" ng-click=update() >
+                  </form>
+                  <i id="success"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <% include ./partials/bootstrap %>
+  </body>
+
+</html>

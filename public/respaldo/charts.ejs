@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
+  <script src="./angular/app.js"></script>
+  <script src="./angular/controller/controller-Home.js"></script>
+</head>
+
+<body ng-app="miapp">
+  <div ng-controller="ctrlHome">
+    <h1>{{nombre}}</h1>
+
+
+    <!-- primer div  -->
+    <div class="container-fluit  ">
+      <div class="row p-1 ">
+        <div class="col-6">
+          <div class="row ">
+            <div class="col-3">
+              <select class="btn btn-dark btn-sm btn-block" name="myChart1" onchange=clickaction(this,this.name) id="myChart1_op">
+
+              </select>
+              <label id="myChart1_nameChart"></label>
+            </div>
+            <div class="col-3">
+              <select class="btn btn-primary btn-sm btn-block" name="myChart1" onchange=clickaction(this,this.name) id="myChart1_name">
+              </select>
+            </div>
+            <div class="col-3">
+              <input name="myChart1" class="btn btn-danger btn-sm btn-block" type="button" value="Save" onclick="Save(this.name)">
+            </div>
+            <div class="col-3 text-center " id="NameChart">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <canvas id="myChart1"></canvas>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-6">
+          <div class="row ">
+            <div class="col-3">
+              <select class="btn btn-dark btn-sm btn-block" name="myChart2" onchange=clickaction(this,this.name) id="myChart2_op">
+
+              </select>
+              <label id="myChart2_nameChart"></label>
+            </div>
+            <div class="col-3">
+              <select class="btn btn-primary btn-sm btn-block" name="myChart2" onchange=clickaction(this,this.name) id="myChart2_name">
+              </select>
+            </div>
+            <div class="col-3">
+              <input name="myChart2" class="btn btn-danger btn-sm btn-block" type="button" value="Save" onclick="Save(this.name)">
+            </div>
+            <div class="col-3 text-center " id="NameChart">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <canvas id="myChart2"></canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container-fluit ">
+      <div class="row p-1 ">
+        <div class="col-6">
+          <div class="row ">
+            <div class="col-3">
+              <select class="btn btn-dark btn-sm btn-block" name="myChart3" onchange=clickaction(this,this.name) id="myChart3_op">
+              </select>
+              <label id="myChart3_nameChart"></label>
+            </div>
+            <div class="col-3">
+              <select class="btn btn-primary btn-sm btn-block" name="myChart3" onchange=clickaction(this,this.name) id="myChart3_name">
+              </select>
+            </div>
+            <div class="col-3">
+              <input name="myChart3" class="btn btn-danger btn-sm btn-block" type="button" value="Save" onclick="Save(this.name)">
+            </div>
+            <div class="col-3 text-center " id="NameChart">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <canvas id="myChart3"></canvas>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-6">
+          <div class="row ">
+            <div class="col-3">
+              <select class="btn btn-dark btn-sm btn-block" name="myChart4" onchange=clickaction(this,this.name) id="myChart4_op">
+              </select>
+              <label id="myChart4_nameChart"></label>
+            </div>
+            <div class="col-3">
+              <select class="btn btn-primary btn-sm btn-block" name="myChart4" onchange=clickaction(this,this.name) id="myChart4_name">
+              </select>
+            </div>
+            <div class="col-3">
+              <input name="myChart4" class="btn btn-danger btn-sm btn-block" type="button" value="Save" onclick="Save(this.name)">
+            </div>
+            <div class="col-3 text-center " id="NameChart">
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <canvas id="myChart4"></canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <!-- <script src="/charts.js"></script> -->
+  <% include ./partials/bootstrap %>
+</body>
+
+</html>

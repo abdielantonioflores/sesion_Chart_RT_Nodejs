@@ -1,0 +1,49 @@
+
+<div ng-app="miapp">
+  <div ng-controller="ctrl">
+    
+<div class="container  ">
+    <!-- icono de retorno  -->
+    <div>
+      <a href="/"><i class="fa fa-angle-double-left size"></i></a>
+    </div>
+    <!-- titulo del formulario  -->
+    <h1 class=" justify-content-md-center d-flex">Ingreso de Nuevos Usuarios </h1>
+    <!-- centramo nuestro formulario  -->
+    <div class="row justify-content-md-center d-flex">
+      <div class="col-md-8">
+        <!-- inicio de nuestro formulario  -->
+        <form action="/Usuario_post" method="POST" name="myForm">
+          <div class="row">
+            <div class=" form-group col-md-6">
+              <input type="text" name="nombre" ng-model="nombre2" required class="form-control" placeholder="Nombre"  autocomplete="off" >
+              <span class="text-danger" ng-show="myForm.nombre.$touched && myForm.nombre.$invalid">The name is required.</span>
+            </div>
+            <div class="col-6">
+              <input type="email" name="email" ng-model="email" required class="form-control" placeholder="email"  autocomplete="off" >
+              <span class="text-danger" ng-show="myForm.email.$touched && myForm.email.$invalid">The name is required.</span> 
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-6">
+              <input type="text" name="role"  ng-model="role" required class="form-control" placeholder="Role"  autocomplete="off" >
+              <span class="text-danger" ng-show="myForm.role.$touched && myForm.role.$invalid">The name is required.</span>
+            </div>
+            <div class="col-6">
+              <input type="password" name="password" ng-model="password" required  class="form-control" placeholder="Password"  autocomplete="off" >
+              <span class="text-danger" ng-show="myForm.password.$touched && myForm.password.$invalid">The name is required.</span> 
+            </div>
+          </div>
+          <div class="form-group col-6">
+            <input name="google" ng-model="google" required  class="form-check-input" type="checkbox" id="gridCheck" value="false">
+            <label class="form-check-label" for="gridCheck"> Google </label>
+            <span class="text-danger" ng-show="myForm.google.$touched && myForm.google.$invalid">The check is required.</span> 
+          </div>
+          <p>Desea <a href="/Usuarios_add">actualizar Usuarios </a></p>
+          <input class="btn btn-warning btn-block" type="submit" />
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
