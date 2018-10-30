@@ -1,5 +1,5 @@
 module.exports = (app, bcrypt) => {
-  
+
   const _ = require("underscore");
   const Usuario = require("../models/usuariosSchema");
   const Save = require("../models/SaveSchema");
@@ -58,7 +58,7 @@ module.exports = (app, bcrypt) => {
     });
     usuario.save((err, usuarioDB) => {
       if (err) {
-      
+
         return res.status(400).json({
           ok: false,
           err
@@ -142,7 +142,7 @@ module.exports = (app, bcrypt) => {
 
 
   app.get("/Getchar", function (req, res) { //muestra los  nuevos datos ingresados 
-    var nombre = req.query.nombre ;
+    var nombre = req.query.nombre;
     Chart.find({
         name: nombre
       }, " level value name  ")
@@ -190,19 +190,18 @@ module.exports = (app, bcrypt) => {
   app.post("/Save_post", function (req, res) {
     let body = req.body;
     let save = new Save({
+      Pk: body.Pk,
       name: body.name,
       type: body.type,
       data: body.data,
     });
     save.save((err, saveDB) => {
-      req.flash("success","ocurrio un erorr ")
       if (err) {
         return res.status(400).json({
           ok: false,
           err
         });
       }
-      res.flash("success","todo bien ")
       res.json({
         ok: true,
         save: saveDB
@@ -212,7 +211,7 @@ module.exports = (app, bcrypt) => {
   });
 
   app.get("/getChartListData", function (req, res) { //regresa los datos guardados del chart 
-    Save.find({}, "name type data")
+    Save.find({}, "  name type data")
 
       .exec((err, chartList) => {
         if (err) {
@@ -233,21 +232,21 @@ module.exports = (app, bcrypt) => {
   });
 
 
-  app.post("/ChartUpdate", function (req, res) { //  actualiza el chart con los nuevos datos 
-    // let id = req.params.id;
+  app.post("/ChartUpdate", function (req, res) { //  actualiza el chart con los 
     var myquery = {
       name: req.body.name
     };
     var newvalues = {
       $set: {
-        name: req.body.name,
+        nombre: req.body.name,
         type: req.body.type,
         data: req.body.data
       }
     };
     Save.updateOne(myquery, newvalues, {
       new: true,
-      runValidators: true
+      runValidators: true,
+      unsert: true
     }, (err, saveDB) => {
 
       if (err) {
@@ -264,12 +263,14 @@ module.exports = (app, bcrypt) => {
   });
 
   app.post("/DeleteChart/:name", function (req, res) {
-    var myquery = { name: req.body.name}; 
-    Save.deleteOne(myquery, function(err,db){
+    var myquery = {
+      name: req.body.name
+    };
+    Save.deleteOne(myquery, function (err, db) {
       if (err) throw err;
-       res.json({
-          ok: true
-        });
+      res.json({
+        ok: true
+      });
     })
 
   });
@@ -314,23 +315,12 @@ module.exports = (app, bcrypt) => {
 
   // update name chart 
 
-  app.post("/ValidName", function (req, res) {
-   
-      var myquery = {
-        name: req.body.name
-      };
-      var newvalues = {
-        $set: {
-          name: req.body.name,
-          type: "line",
-          data: "Censo"
-        }
-      };
-      Save.updateOne(myquery, newvalues, {
-        new: true,
-        runValidators: true,
-        upsert: true
-      }, (err, saveDB) => {
+  app.get("/ValidName/", function (req, res) {
+    // req.query.name
+    Save.find({
+        name: req.query.name
+      }, 'name')
+      .exec((err, data) => {
         if (err) {
           return res.status(400).json({
             ok: false,
@@ -339,12 +329,60 @@ module.exports = (app, bcrypt) => {
         }
         res.json({
           ok: true,
-          save: saveDB
+          data: data
         });
       });
-    
-
-    
 
   });
+  app.post("/CreateNewChart", function (req, res) { //  actualiza el chart con
+    let body = req.body;
+    let save = new Save({
+      name: body.name,
+      type: body.type,
+      data: body.data,
+    });
+    save.save((err, saveDB) => {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          err
+        });
+      }
+      res.json({
+        ok: true,
+        save: saveDB
+      });
+    });
+  });
+
+
+  app.post("/ChartSave", function (req, res) { //  actualiza el chart con los 
+    let body = req.body;
+    var myquery = {
+      _id: body._id
+    }
+    var newvalues = {
+      $set: {
+        _id: body._id,
+        name: body.name,
+        type: body.type,
+        data: body.data
+      }
+    };
+    Save.updateOne(myquery, newvalues, {}, (err, saveDB) => {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          err
+        });
+      }
+      res.json({
+        ok: true,
+        save: saveDB
+      });
+    });
+  });
+
+
+
 }

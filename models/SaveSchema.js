@@ -2,17 +2,18 @@ const mongoose = require('mongoose')
 var uniquevalidate = require('mongoose-unique-validator')
 let Schema = mongoose.Schema;
 let saveSchema = new Schema({
+
   name: {
     type: String,
-    require: true
-    },
+    require: true,
+
+  },
   type: {
     type: String,
-
   },
   data: {
     type: String,
-    
+
   }
 })
 saveSchema.plugin(uniquevalidate, {

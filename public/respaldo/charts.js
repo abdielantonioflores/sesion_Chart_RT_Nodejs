@@ -217,3 +217,49 @@ LoadSave()
 //   function (data, status) {
 //     alert(data + "" + status);
 //   });
+
+
+
+// crear un nuevo chart 
+
+// $scope.CreatenewChart = function () {
+//   var name = document.getElementById('name').value
+//   let url = host + CreateNewChart
+//   $.ajax({
+//     type: "POST",
+//     url: url,
+//     timeout: 2000,
+//     data: {
+//       name: name,
+//       data: "Censo",
+//       type: "line"
+//     },
+//     success: function (data) {
+//       $("#success").text(' Chart fue creado con exito ');
+//     },
+//     error: function (textStatus, err) {
+//       //show error message
+//       $("#success").text(textStatus + ' no se pudo crear el chart ' + err);
+//     }
+//   });
+// }
+
+// let url = host + Save;
+//         $.ajax({
+//           type: "POST",
+//           url: url,
+//           timeout: 2000,
+//           data: {
+//             data: "censo",
+//             name: name,
+//             type: "line"
+//           },
+//           success: function (data) {
+//             //show content
+//             alert("Success!");
+//           },
+//           error: function (textStatus, err) {
+//             //show error message
+//             alert("text status " + textStatus + ", err " + err);
+//           }
+//         });
