@@ -1,7 +1,7 @@
 'use strict'
 app.factory("Dataservice", function ($http) {
-  // const host = "http://192.168.1.45:3000/";
-  const host = "http://localhost:3000/";
+  const host = "http://192.168.1.45:3000/";
+  // const host = "http://localhost:3000/";
 
   var Dataservice = {
 
@@ -20,6 +20,8 @@ app.factory("Dataservice", function ($http) {
         return data;
       })
     }
+
+
 
 
   }

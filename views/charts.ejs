@@ -1,99 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="miapp">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>
+
+  </title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
-  <script src="./chart/chart.js"></script>
-  <script src="./chart/chart.bundle.js"></script>
-  <script src="./angular/js/angular.min.js"></script>
-  <script src="./angular/app.js"></script>
-  <script src="./angular/controller/controller-Home.js"></script>
-  <script src="./angular/service/data-service.js"></script>
+  <!-- <link rel="stylesheet" href="./bootstrap/css/style.css"> -->
+  <link rel="styleSheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.1.1/ui-grid.css" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
     crossorigin="anonymous">
 
-
 </head>
 
-<body ng-app="miapp">
+<body>
   <div ng-controller="ctrlHome">
-    <h1>{{nombre}}</h1>
+
+    <% include partials/navbarChart%>
     <!-- primer div  -->
-    <div class="container-fluit  ">
+    <div class="container-fluit col-12 mt-3 " style="width:100%;">
       <div class="row p-1 ">
         <div class="col-6" ng-repeat="Chart in chartList">
-          <div class="row ">
-            <div class="col-3">
-              <select class="btn btn-dark btn-sm btn-block" name={{Chart.name}} ng-change=clickaction(this,this.name)
-                id={{Chart.name+"_op"}} ng-model="Chart.type">
-                <option ng-repeat="Ctype in listData" value={{::Ctype}}>{{::Ctype}}</option>
-              </select>
-            </div>
-            <div class="col-3">
-              <select class="btn btn-primary btn-sm btn-block" name={{Chart.name}} ng-change=clickaction(this,this.name)
-                ng-model="Chart.data" id={{Chart.name+"_name"}}>
-                <option id="valueData" ng-repeat="Cdata in NameData" value={{::Cdata}}>{{::Cdata}}</option>
-              </select>
-            </div>
+          <div id={{Chart._id}}>
+            <div class="row ">
+              <div class="col-3">
+                <select class="btn btn-dark btn-sm btn-block" name={{Chart.name}} ng-change=clickaction(this,this.name)
+                  id={{Chart.name+"_op"}} ng-model="Chart.type">
+                  <option ng-repeat="Ctype in listData" value={{::Ctype}}>{{::Ctype}}</option>
+                </select>
+              </div>
+              <div class="col-3">
+                <select class="btn btn-primary btn-sm btn-block" name={{Chart.name}} ng-change=clickaction(this,this.name)
+                  ng-model="Chart.data" id={{Chart.name+"_name"}}>
+                  <option id="valueData" ng-repeat="Cdata in NameData" value={{::Cdata}}>{{::Cdata}}</option>
+                </select>
+              </div>
 
-
-            <div class="col-3">
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button name={{Chart.name}} type="button" class="btn btn-secondary btn-sm  " ng-click=Save(this.Chart.name)>Save</button>
-                <button name={{Chart.name}} type="button" class="btn btn-danger btn-sm  " ng-click=Delete(this.Chart.name)>Delete</button>
+              <div class="col-3">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button name={{Chart.name}} type="button" class="btn btn-secondary btn-sm  " ng-click=Save(this.Chart.name)>Save</button>
+                  <button name={{Chart.name}} type="button" class="btn btn-danger btn-sm  " ng-click=Delete(this.Chart.name)>Delete</button>
+                </div>
+              </div>
+              <div class="col-3   text-center ">
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-prepend">
+                    <button class=" btn  btn-success" id="inputGroup-sizing-sm" ng-click="modal(Chart.name,Chart._id,Chart.type,Chart.data,false)"><i
+                        class="fas fa-pencil-alt"></i></button>
+                  </div>
+                  <input type="text" name="ChartName" ng-model=Chart.name class="form-control" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-sm" value={{Chart.name}} id={{Chart._id}} disabled>
+                </div>
               </div>
             </div>
-            <div class="col-3   text-center ">
-              <div class="input-group input-group-sm mb-3">
-                <div class="input-group-prepend">
-                  <button class=" btn  btn-success" id="inputGroup-sizing-sm" ng-click="modal(Chart.name,Chart._id,Chart.type,Chart.data)"><i
-                      class="fas fa-pencil-alt"></i></button>
-                </div>
-                <input type="text" name="ChartName" ng-model=Chart.name class="form-control" aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm" value={{Chart.name}} id={{Chart._id}} disabled>
+            <div class="row">
+              <div class="col-12">
+                <canvas id={{Chart.name}}></canvas>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <canvas id={{Chart.name}}></canvas>
-            </div>
-          </div>
-          <!--Modal -->
-          <div class="modal fade" id="Update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Change Name of the chart {{name}} </h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form name="ChangeNameForm">
-                    <input type="text" class="form-control" name="name" id="name">
-                    <input ng-model="ValidateChart" id="nameofChart" ng-hide="ValidateChart" class="btn   btn-danger mt-3 btn-block "
-                      type="submit" value="Validate" name={{Chart.name}} ng-click=CheckChartExist(this,this.name)>
-                    <div id="success" role="alert"></div>
-                    <div id="success_err" role="alert"></div>
-                  </form>
-
+            <!--Modal -->
+            <div class="modal fade" id="Update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" id="success">{{headerModal}} </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form name="ChangeNameForm" onsubmit="this.reset(); ">
+                      <input type="text" class="form-control namec" name="name" autocomplete="of">
+                      <button ng-model="ValidateChart" ng-hide="ValidateChart" class="btn   btn-danger mt-3 btn-block "
+                        type="submit" name={{Chart.name}} ng-click=CheckChartExist(this,this.name)>Validate</button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
     </div>
+
+    <% include partials/modal%>
   </div>
-  <script src="./jquery/jquery.min.js"></script>
+  <script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
+  <script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
+  <script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
+  <script src="./jquery/jquery.min.js"> </script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="./chart/chart.js"></script>
+  <script src="./chart/chart.bundle.js"></script>
   <script src="./bootstrap/js/bootstrap.js"></script>
+  <script src="./js/variables&functionMsg.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="./angular/js/angular.min.js"></script>
+  <script src="./angular/app.js"></script>
+  <script src="./angular/controller/controller-data.js"></script>
+  <script src="./angular/controller/controller-Home.js"></script>
+  <script src="./angular/service/data-service.js"></script>
+  <script src="./angular/uiGrid/ui-grid.min.js"></script>
 
 </body>
 

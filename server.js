@@ -1,60 +1,83 @@
+/*
+###################### Constantes del programa definicion de librerias  #####################
+*/
 require('./config/configPort');
 const express = require('express');
 const app = express();
-var compression = require('compression');
+const server = app.listen(port);
+const io = require('socket.io').listen(server);
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const flash = require('flash');
+const compression = require('compression');
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
 const _ = require('underscore')
-var morgan = require('morgan')
-// const flash = require('flash')
-var session = require('express-session')
-const flash = require ('express-flash-notification') ;
+const morgan = require('morgan')
+const session = require('express-session')
 const {
     url
 } = require('./config/configDB');
-app.set('trust proxy', 1) // trust first proxy
 
+
+/*
+###################### Configuracion de los Middleware #####################
+*/
+app.use(compression());
+app.use(bodyParser.json())
+app.use(morgan('dev'));
 app.use(session({
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true
 }))
-app.use(flash(app, {
-    sessionName: 'flash',
-    utilityName: 'flash',
-    localsName: 'flash',
-    viewName: 'flash',
-    beforeSingleRender: function(item, callback){ callback(null, item) },
-    afterAllRender: function(htmlFragments, callback){ callback(null, htmlFragments.join('\n')) }
-  }));
-// app.use(flash());
-
-app.use(compression());
 app.use(bodyParser.urlencoded({
     extended: false
 }))
 
-app.use(morgan('dev'));
+/*
+###################### conexion a mongodb usando mongoose #####################
+*/
 
-mongoose.set('useCreateIndex', true)
 mongoose.connect(url, {
     useNewUrlParser: true
 }, (err) => {
     if (err) throw err;
     console.log('La base de datos esta ONLINE ')
 })
-app.set('views', path.join(__dirname, '/views'));
+
+mongoose.set('useCreateIndex', true)
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+app.use((req, res, next) => {
+    app.locals.signinMessage = req.flash('signinMessage');
+    app.locals.signupMessage = req.flash('signupMessage');
+    app.locals.user = req.user;
+    // console.log(app.locals)
+    next();
+});
+/*
+###################### proxi y rutas Carpetas #####################
+*/
+app.set('trust proxy', 1)
+app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(__dirname + '/bower_components'))
+require('./routes/UserRoutes')(app, passport, LocalStrategy)
+require('./session/users')(passport)
+require('./service/serviceGetUsers')(app)
 
-require('./routes/UserRoutes')(app)
-require('./service/serviceGetUsers')(app, bcrypt)
-// require('./config/configDB')(mongoose)
-app.use(express.static(path.join(__dirname, 'public')));
-// parse application/json
-app.use(bodyParser.json())
+/*
+###################### socket comunicacion con los usuarios #####################
+*/
 
-app.listen(port, () => {
-    console.log(` Escuchando por el puerto :${port}`);
+io.on('connection', function (socket) {
+    socket.on('dataUsers', function (message) {
+        socket.broadcast.emit('ChangeRT', {
+            message: message
+        });
+    });
 });

@@ -1,30 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <% include ./partials/head %>
 
-<body ng-app="miapp">
-  <div ng-controller="ctrlHome">
-
-    <div class="row justify-content-md-center col-12 ">
-      <div class="col-md-8">
-        <div class="jumbotron">
-          <h1 class="display-4">Bienvenido Usuario {{nombre}}</h1>
-          <div class="col-4">
-            <p>Ver todod los usuarios </p>
-            <a class=" btn btn-warning" href="/Usuarios">Ver api de Usuarios</a>
-
-          </div>
-          <hr class="my-4">
-          <p>agregar nuevos Usuarios </p>
-          <a class="btn btn-danger" href="/Usuarios_add">add users </a>
-          <a class="btn btn-dark" href="/charts">Graficos </a>
+<body>
+  <div class="container full-height">
+    <div class="row flex center v-center full-height">
+      <div class="col-8 col-sm-4">
+        <div class="form-box">
+          <form action="/Login" method="POST">
+            <fieldset>
+              <legend class="color-letra">Inicio de Sesion Charts</legend>
+              <img src="./img/avatar.png" id="avatar" class="avatar round">
+              <input class="form-control form-Login text-capitalize" type="name" id="username" name="name" placeholder="username"
+                autocomplete="off">
+              <input class="form-control form-Login" type="password" id="password" name="password" placeholder="password"
+                autocomplete="off">
+              <button class="btn btn-warning btn-block" type="submit">LOGIN</button>
+            </fieldset>
+          </form>
+          <a class="letraform" href="/Signup"> No tengo Cuenta </a>
         </div>
-
       </div>
     </div>
   </div>
-
 </body>
 
 </html>
